@@ -32,7 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let rootViewController = mainStoryboard.instantiateInitialViewController() as? ViewController else {
+            fatalError()
+        }
+        
+        rootViewController.reachability = BasicReachability()
+        
+        window?.rootViewController = rootViewController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

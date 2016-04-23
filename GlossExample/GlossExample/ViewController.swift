@@ -23,13 +23,32 @@
 // THE SOFTWARE.
 //
 
+import Alamofire
+import Gloss
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var reachability: Reachability!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if !reachability.isReachable() {
+            print("JSON PARSING EXAMPLE\n")
+            
+            parsingExample()
+        } else {
+            print("NETWORKING EXAMPLE\n")
+            
+            networkingExample()
+        }
+
+    }
+    
+    // MARK: - Parsing JSON
+    
+    // Example of parsing JSON with Gloss.
+    func parsingExample() {
         let repoJSON = [
             "id" : 40102424,
             "name": "Gloss",
@@ -41,7 +60,7 @@ class ViewController: UIViewController {
                 "html_url" : "https://github.com/hkellaway"
             ],
             "language" : "Swift"
-            ]
+        ]
         
         guard let repo = Repo(json: repoJSON) else
         {
@@ -68,7 +87,24 @@ class ViewController: UIViewController {
         print("")
         
         print("JSON ARRAY: \(repos.toJSONArray())")
-
+    }
+    
+    // MARK: - Networking
+    
+    // Example of making network requests with Gloss.
+    func networkingExample() {
+        let completion: Result<[Repo], NSError> -> () = {
+            result in
+            
+            switch result {
+            case .Success(let models):
+                print(models)
+            case .Failure(let error):
+                print(error)
+            }
+        }
+        
+        Gloss.request(.GET, "https://api.github.com/users/hkellaway/repos", completion: completion)
     }
 }
 

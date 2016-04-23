@@ -28,7 +28,11 @@ import Foundation
 
 extension Request: DecodableResponseSerializer {
     
-    public func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (T?, NSError?) {
+    // MARK: - Protocol conformance
+    
+    // MARK: DecodableResponseSerializer
+    
+    public func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (value: T?, error: NSError?) {
         let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = (options == nil) ? Request.JSONResponseSerializer() : Request.JSONResponseSerializer(options: options!)
         let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
         
@@ -49,7 +53,7 @@ extension Request: DecodableResponseSerializer {
         }
     }
     
-    public func serializeResponse<T : Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> ([T]?, NSError?) {
+    public func serializeResponse<T : Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (value: [T]?, error: NSError?) {
         let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = (options == nil) ? Request.JSONResponseSerializer() : Request.JSONResponseSerializer(options: options!)
         let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
         
@@ -69,6 +73,54 @@ extension Request: DecodableResponseSerializer {
         case .Failure(let error):
             return (nil, error)
         }
+    }
+    
+}
+
+extension Request {
+
+    // MARK: - Convenience functions
+    
+    /**
+     Serializes a response into a Decodable object. Returns serialized object
+     when successful, error otherwise.
+     
+     :parameter: request  Request.
+     :parameter: response Response.
+     :parameter: data     Data.
+     :parameter: error    Error.
+     
+     :returns: Result of serializing response to Decodable object.
+     */
+    public func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> Result<T, NSError> {
+        let result: (T?, NSError?) = serializeResponse(request, response: response, data: data, error: error, options: options)
+        
+        if let error = result.1 {
+            return .Failure(error)
+        }
+        
+        return .Success(result.0!)
+    }
+    
+    /**
+     Serializes a response into an array of Decodable objects. Returns serialized objects
+     when successful, error otherwise.
+     
+     :parameter: request  Request.
+     :parameter: response Response.
+     :parameter: data     Data.
+     :parameter: error    Error.
+     
+     :returns: Result of serializing response to array of Decodable objects.
+     */
+    public func serializeResponse<T : Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> Result<[T], NSError> {
+        let result: ([T]?, NSError?) = serializeResponse(request, response: response, data: data, error: error, options: options)
+        
+        if let error = result.1 {
+            return .Failure(error)
+        }
+        
+        return .Success(result.0!)
     }
     
 }

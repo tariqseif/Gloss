@@ -41,7 +41,7 @@ public protocol DecodableResponseSerializer {
      
      :returns: Result of serializing response to Decodable object.
      */
-    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (T?, NSError?)
+    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (value: T?, error: NSError?)
     
     /**
      Serializes a response into an array of Decodable objects. Returns serialized objects
@@ -54,6 +54,6 @@ public protocol DecodableResponseSerializer {
      
      :returns: Result of serializing response to array of Decodable objects.
      */
-    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> ([T]?, NSError?)
+    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (value: [T]?, error: NSError?)
     
 }

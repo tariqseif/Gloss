@@ -30,7 +30,7 @@ import Foundation
  
  :parameter: networkRequestManager: Network request manager making request.
  :parameter: method                 Method.
- :parameter: urlString              URL string.
+ :parameter: URLString              URL string.
  :parameter: parameters             Parameters.
  :parameter: headers                Headers.
  :parameter: completion             Function called on completion.
@@ -43,7 +43,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: (T?, NSError?) -> ())
 {
-    networkRequestManager.networkRequest(method, urlString: URLString, parameters: parameters, headers: headers, completion: completion)
+    networkRequestManager.networkRequest(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }
 
 /**
@@ -51,7 +51,7 @@ public func request<T: Decodable>(
  
  :parameter: networkRequestManager: Network request manager making request.
  :parameter: method                 Method.
- :parameter: urlString              URL string.
+ :parameter: URLString              URL string.
  :parameter: parameters             Parameters.
  :parameter: headers                Headers.
  :parameter: completion             Function called on completion.
@@ -64,5 +64,5 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: ([T]?, NSError?) -> ())
 {
-    networkRequestManager.networkRequest(method, urlString: URLString, parameters: parameters, headers: headers, completion: completion)
+    networkRequestManager.networkRequest(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }

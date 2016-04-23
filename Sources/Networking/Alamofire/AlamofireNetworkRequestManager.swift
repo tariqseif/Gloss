@@ -39,7 +39,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: - Convenience functions
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, urlString: URLStringConvertible, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<T, NSError> -> ()) {
+    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: URLStringConvertible, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<T, NSError> -> ()) {
         let completion: (value: T?, error: NSError?) -> () = {
             (object, error) in
             
@@ -51,10 +51,10 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             completion(.Success(object!))
         }
         
-        networkRequest(method, urlString: urlString.URLString, parameters: parameters, headers: headers, completion: completion)
+        networkRequest(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
     }
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, urlString: URLStringConvertible, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<[T], NSError> -> ()) {
+    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: URLStringConvertible, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<[T], NSError> -> ()) {
         let completion: (value: [T]?, error: NSError?) -> () = {
             (objects, error) in
             
@@ -66,14 +66,14 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             completion(.Success(objects!))
         }
         
-        networkRequest(method, urlString: urlString.URLString, parameters: parameters, headers: headers, completion: completion)
+        networkRequest(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
     }
     
     // MARK: - Protocol conformance
     
     // MARK: NetworkRequestManager
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ()) {
+    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<T, NSError> -> () = {
@@ -87,10 +87,10 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             }
         }
         
-        Alamofire.request(requestMethod, urlString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
     }
     
-    public func networkRequest<T : Decodable>(method: Gloss.Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
+    public func networkRequest<T : Decodable>(method: Gloss.Method, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<[T], NSError> -> () = {
@@ -104,7 +104,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             }
         }
         
-        Alamofire.request(requestMethod, urlString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
     }
     
     // MARK: - Private functions

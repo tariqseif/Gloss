@@ -1,5 +1,5 @@
 //
-//  DecodableResponseSerializer.swift
+//  NetworkRequestManager.swift
 //  Gloss
 //
 // Copyright (c) 2016 Harlan Kellaway
@@ -26,34 +26,30 @@
 import Foundation
 
 /**
- Response serializer for Decodable objects.
+ Network request manager.
  */
-public protocol DecodableResponseSerializer {
+public protocol NetworkRequestManager {
+
+    /**
+     Performs a network request with the provided details. Completes with
+     Decodable objects when successful, error otherwise.
+     
+     :parameter: method     Method.
+     :parameter: urlString  URL string.
+     :parameter: parameters Parameters.
+     :parameter: headers    Headers.
+     */
+    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (T?, NSError?) -> ())
     
     /**
-     Serializes a response into a Decodable object. Returns serialized object
-     when successful, error otherwise.
+     Performs a network request with the provided details. Completes with
+     array of Decodable objects when successful, error otherwise.
      
-     :parameter: request  Request.
-     :parameter: response Response.
-     :parameter: data     Data.
-     :parameter: error    Error.
-     
-     :returns: Result of serializing response to Decodable object.
+     :parameter: method     Method.
+     :parameter: urlString  URL string.
+     :parameter: parameters Parameters.
+     :parameter: headers    Headers.
      */
-    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> (T?, NSError?)
-    
-    /**
-     Serializes a response into an array of Decodable objects. Returns serialized objects
-     when successful, error otherwise.
-     
-     :parameter: request  Request.
-     :parameter: response Response.
-     :parameter: data     Data.
-     :parameter: error    Error.
-     
-     :returns: Result of serializing response to array of Decodable objects.
-     */
-    func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> ([T]?, NSError?)
+    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: ([T]?, NSError?) -> ())
     
 }

@@ -38,8 +38,9 @@ public protocol NetworkRequestManager {
      :parameter: urlString  URL string.
      :parameter: parameters Parameters.
      :parameter: headers    Headers.
+     :parameter: completion Function called on completion.
      */
-    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (T?, NSError?) -> ())
+    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ())
     
     /**
      Performs a network request with the provided details. Completes with
@@ -49,7 +50,8 @@ public protocol NetworkRequestManager {
      :parameter: urlString  URL string.
      :parameter: parameters Parameters.
      :parameter: headers    Headers.
+     :parameter: completion Function called on completin.
      */
-    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: ([T]?, NSError?) -> ())
+    func networkRequest<T: Decodable>(method: Method, urlString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ())
     
 }

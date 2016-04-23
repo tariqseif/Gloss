@@ -24,7 +24,6 @@
 //
 
 import Alamofire
-import Gloss
 import Foundation
 
 // MARK: - Convenience functions

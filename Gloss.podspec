@@ -12,6 +12,25 @@ Pod::Spec.new do |s|
   s.platforms     = { :ios => "8.0", :osx => "10.9", :tvos => "9.0", :watchos => "2.0" }
   s.requires_arc = true
 
-  s.source_files     = 'Sources/*.{swift}'
+  s.default_subspec   = 'Gloss'
+
+  s.subspec 'Gloss' do |ss|
+      ss.dependency     'Gloss/Core'
+  end
+
+  s.subspec 'Core' do |ss|
+      ss.source_files = 'Sources/*.swift'
+  end
+
+  s.subspec 'Networking' do |ss|
+      ss.dependency     'Gloss/Core'
+      ss.source_files = 'Sources/Networking/*.swift'
+  end
+
+  s.subspec 'Alamofire' do |ss|
+      ss.dependency     'Gloss/Networking'
+      ss.dependency     'Alamofire', '~> 3.0'
+      ss.source_files = 'Sources/Networking/Alamofire/*.swift' 
+  end
 
 end

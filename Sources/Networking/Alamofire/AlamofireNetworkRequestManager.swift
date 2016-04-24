@@ -39,7 +39,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: - Convenience functions
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<T, NSError> -> ()) {
+    public func networkRequest<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<T, NSError> -> ()) {
         let completion: (value: T?, error: NSError?) -> () = {
             (object, error) in
             
@@ -54,7 +54,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
         networkRequest(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
     }
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<[T], NSError> -> ()) {
+    public func networkRequest<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<[T], NSError> -> ()) {
         let completion: (value: [T]?, error: NSError?) -> () = {
             (objects, error) in
             
@@ -73,7 +73,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: NetworkRequestManager
     
-    public func networkRequest<T: Decodable>(method: Gloss.Method, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ()) {
+    public func networkRequest<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<T, NSError> -> () = {
@@ -90,7 +90,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
         Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
     }
     
-    public func networkRequest<T : Decodable>(method: Gloss.Method, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
+    public func networkRequest<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<[T], NSError> -> () = {
@@ -109,7 +109,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: - Private functions
     
-    private func alamofireMethodForMethod(method: Gloss.Method) -> Alamofire.Method {
+    private func alamofireMethodForMethod(method: HTTPMethod) -> Alamofire.Method {
         switch method {
         case .CONNECT:
             return Alamofire.Method.CONNECT

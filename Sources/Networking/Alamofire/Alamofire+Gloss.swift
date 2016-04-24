@@ -45,7 +45,7 @@ public private(set) var alamofireNetworkRequestManager: NetworkRequestManager = 
  :parameter: completion Function called on completion.
  */
 public func request<T: Decodable>(
-    method: Gloss.Method,
+    method: HTTPMethod,
     _ URLString: URLStringConvertible,
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
@@ -76,7 +76,7 @@ public func request<T: Decodable>(
  :parameter: completion Function called on completion.
  */
 public func request<T: Decodable>(
-    method: Gloss.Method,
+    method: HTTPMethod,
     _ URLString: URLStringConvertible,
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
@@ -107,7 +107,7 @@ public func request<T: Decodable>(
  :parameter: completion Function called on completion.
  */
 public func request<T: Decodable>(
-    method: Gloss.Method,
+    method: HTTPMethod,
     _ URLString: String,
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
@@ -127,7 +127,7 @@ public func request<T: Decodable>(
  :parameter: completion Function called on completion.
  */
 public func request<T: Decodable>(
-    method: Gloss.Method,
+    method: HTTPMethod,
     _ URLString: String,
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,

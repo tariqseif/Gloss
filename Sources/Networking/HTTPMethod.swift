@@ -1,5 +1,5 @@
 //
-//  Method.swift
+//  HTTPMethod.swift
 //  Gloss
 //
 // Copyright (c) 2016 Harlan Kellaway
@@ -30,7 +30,7 @@ import Foundation
  
  See https://tools.ietf.org/html/rfc7231#section-4.3
  */
-public enum Method {
+public enum HTTPMethod {
     case CONNECT
     case DELETE
     case GET

@@ -47,6 +47,6 @@ public protocol AlamofireAdapter {
      
      :returns: Gloss Result.
      */
-    func glossResultFromAlamofireResponse<T>(response: Alamofire.Response<T, NSError>) -> Gloss.Result<T>
+    func glossResultForAlamofireResponse<T>(response: Alamofire.Response<T, NSError>) -> Gloss.Result<T>
     
 }

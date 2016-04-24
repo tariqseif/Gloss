@@ -27,6 +27,8 @@ import Alamofire
 import Foundation
 
 extension Request {
+    
+    // MARK: - Reponse
 
     /**
      Handler for Response with no object.
@@ -72,6 +74,8 @@ extension Request {
     public func responseGlossJSONArray(completion: Response<[JSON], NSError> -> ()) -> Self {
         return response(responseSerializer: Request.GlossJSONArrayResponseSerializer(), completionHandler: completion)
     }
+    
+    // MARK: - Response Serializer
     
     /**
      Response serializer capable of handling empty objects.

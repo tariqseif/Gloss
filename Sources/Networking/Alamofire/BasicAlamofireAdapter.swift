@@ -37,7 +37,9 @@ public struct BasicAlamofireAdapter: AlamofireAdapter {
         
     }
     
-    // MARK: - AlamofireAdapter
+    // MARK: - Protocol conformance
+    
+    // MARK: AlamofireAdapter
     
     public func alamofireMethodForGlossMethod(method: HTTPMethod) -> Alamofire.Method {
         switch method {
@@ -62,7 +64,7 @@ public struct BasicAlamofireAdapter: AlamofireAdapter {
         }
     }
     
-    public func glossResultFromAlamofireResponse<T>(response: Alamofire.Response<T, NSError>) -> Gloss.Result<T> {
+    public func glossResultForAlamofireResponse<T>(response: Alamofire.Response<T, NSError>) -> Gloss.Result<T> {
         switch response.result {
         case .Success(let value):
             return Gloss.Result(value: value)

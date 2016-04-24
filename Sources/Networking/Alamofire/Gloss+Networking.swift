@@ -1,5 +1,5 @@
 //
-//  Alamofire+Gloss.swift
+//  Gloss+Networking.swift
 //  Gloss
 //
 // Copyright (c) 2016 Harlan Kellaway
@@ -25,19 +25,13 @@
 
 import Foundation
 
-
 /**
- Alamofire network request manager used for requests.
+ Network request manager used for requests.
  */
-public private(set) var GlossAlamofireNetworkRequestManager: NetworkRequestManager = {
-    return AlamofireNetworkRequestManager(adapter: GlossAlamofireAdapter)
-}()
-
-/**
- Alamofire adapter used for requests.
- */
-public private(set) var GlossAlamofireAdapter: AlamofireAdapter = {
-    return BasicAlamofireAdapter()
+public private(set) var GlossNetworkRequestManager: NetworkRequestManager = {
+    let adapter = BasicAlamofireAdapter()
+    
+    return AlamofireNetworkRequestManager(adapter: adapter)
 }()
 
 /**
@@ -56,7 +50,7 @@ public func request(
       headers: [String: String]? = nil,
       completion: Gloss.Result<()> -> ())
 {
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
+    GlossNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }
 
 /**
@@ -75,7 +69,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: Gloss.Result<T> -> ())
 {
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
+    GlossNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }
 
 /**
@@ -94,5 +88,5 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: Gloss.Result<[T]> -> ())
 {
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
+    GlossNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }

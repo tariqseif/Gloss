@@ -31,42 +31,15 @@ import Foundation
  */
 public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
+    // MARK: - Properties
+    
+    /// Adapter.
+    public let adapter: AlamofireAdapter
+    
     // MARK: - Init
     
-    public init() {
-        
-    }
-    
-    // MARK: - Convenience functions
-    
-    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Result<T, NSError> -> ()) {
-        let completion: Gloss.Result<T> -> () = {
-            result in
-            
-            switch result {
-            case Gloss.Result.Success(let value):
-                completion(Alamofire.Result.Success(value))
-            case Gloss.Result.Failure(let error):
-                completion(Alamofire.Result.Failure(error as NSError))
-            }
-        }
-        
-        request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
-    }
-    
-    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Result<[T], NSError> -> ()) {
-        let completion: Gloss.Result<[T]> -> () = {
-            result in
-            
-            switch result {
-            case Gloss.Result.Success(let value):
-                completion(Alamofire.Result.Success(value))
-            case Gloss.Result.Failure(let error):
-                completion(Alamofire.Result.Failure(error as NSError))
-            }
-        }
-        
-        request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
+    public init(adapter: AlamofireAdapter) {
+        self.adapter = adapter
     }
     
     // MARK: - Protocol conformance
@@ -74,79 +47,41 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     // MARK: NetworkRequestManager
     
     public func request(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<()> -> ()) {
-        let requestMethod = alamofireMethodForMethod(method)
+        let responseCompletion: Response<(), NSError> -> () = { completion(self.adapter.glossResultFromAlamofireResponse($0)) }
         
-        let responseCompletion: Response<(), NSError> -> () = {
-            response in
-            
-            switch response.result {
-            case .Success(let _):
-                completion(Gloss.Result(value: ()))
-            case .Failure(let error):
-                completion(Gloss.Result(error: error))
-            }
-        }
-        
-        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossEmpty(responseCompletion)
+        request(method, URLString: URLString, parameters: parameters, encoding: .URL, headers: headers, completion: responseCompletion)
     }
     
     public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<T> -> ()) {
-        let requestMethod = alamofireMethodForMethod(method)
+        let responseCompletion: Response<T, NSError> -> () = { completion(self.adapter.glossResultFromAlamofireResponse($0)) }
         
-        let responseCompletion: Response<T, NSError> -> () = {
-            response in
-            
-            switch response.result {
-            case .Success(let value):
-                completion(Gloss.Result(value: value))
-            case .Failure(let error):
-                completion(Gloss.Result(error: error))
-            }
-        }
-        
-        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
+        request(method, URLString: URLString, parameters: parameters, encoding: .URL, headers: headers, completion: responseCompletion)
     }
     
     public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<[T]> -> ()) {
-        let requestMethod = alamofireMethodForMethod(method)
+        let responseCompletion: Response<[T], NSError> -> () = { completion(self.adapter.glossResultFromAlamofireResponse($0)) }
         
-        let responseCompletion: Response<[T], NSError> -> () = {
-            response in
-            
-            switch response.result {
-            case .Success(let value):
-                completion(Gloss.Result(value: value))
-            case .Failure(let error):
-                completion(Gloss.Result(error: error))
-            }
-        }
-        
-        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
+        request(method, URLString: URLString, parameters: parameters, encoding: .URL, headers: headers, completion: responseCompletion)
     }
     
-    // MARK: - Private functions
+    // MARK: - Instance functions
     
-    private func alamofireMethodForMethod(method: HTTPMethod) -> Alamofire.Method {
-        switch method {
-        case .CONNECT:
-            return Alamofire.Method.CONNECT
-        case .DELETE:
-            return Alamofire.Method.DELETE
-        case .GET:
-            return Alamofire.Method.GET
-        case .HEAD:
-            return Alamofire.Method.HEAD
-        case .OPTIONS:
-            return Alamofire.Method.OPTIONS
-        case .PATCH:
-            return Alamofire.Method.PATCH
-        case .POST:
-            return Alamofire.Method.POST
-        case .PUT:
-            return Alamofire.Method.PUT
-        case .TRACE:
-            return Alamofire.Method.TRACE
-        }
+    public func request(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Response<(), NSError> -> ()) {
+        let requestMethod = adapter.alamofireMethodForGlossMethod(method)
+        
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: encoding, headers: headers).responseGlossEmpty(completion)
+    }
+    
+    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Response<T, NSError> -> ()) {
+        let requestMethod = adapter.alamofireMethodForGlossMethod(method)
+        
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: encoding, headers: headers).responseGlossDecodable(completion)
+    }
+    
+    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Response<[T], NSError> -> ()) {
+        let requestMethod = adapter.alamofireMethodForGlossMethod(method)
+        
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: encoding, headers: headers).responseGlossDecodable(completion)
     }
     
 }

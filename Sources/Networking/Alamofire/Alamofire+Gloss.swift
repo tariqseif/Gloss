@@ -32,14 +32,16 @@ import Foundation
  :parameter: Alamofire network request manager used for requests.
  */
 public private(set) var GlossAlamofireNetworkRequestManager: NetworkRequestManager = {
-    return AlamofireNetworkRequestManager()
+    let defaultAdapter = BasicAlamofireAdapter()
+    
+    return AlamofireNetworkRequestManager(adapter: defaultAdapter)
 }()
 
 /**
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
@@ -58,7 +60,7 @@ public func request(
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
@@ -88,7 +90,7 @@ public func request<T: Decodable>(
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
@@ -118,7 +120,7 @@ public func request<T: Decodable>(
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
@@ -137,7 +139,7 @@ public func request(
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
@@ -156,7 +158,7 @@ public func request<T: Decodable>(
  Convenience function for making a network request.
  
  :parameter: method     Method.
- :parameter: urlString  URL string.
+ :parameter: URLString  URL string.
  :parameter: parameters Parameters.
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.

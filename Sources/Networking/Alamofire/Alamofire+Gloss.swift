@@ -31,7 +31,7 @@ import Foundation
  
  :parameter: Alamofire network request manager used for requests.
  */
-public private(set) var alamofireNetworkRequestManager: NetworkRequestManager = {
+public private(set) var GlossAlamofireNetworkRequestManager: NetworkRequestManager = {
     return AlamofireNetworkRequestManager()
 }()
 
@@ -114,7 +114,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: (T?, NSError?) -> ())
 {
-    alamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
+    GlossAlamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }
 
 /**
@@ -134,5 +134,5 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: ([T]?, NSError?) -> ())
 {
-    alamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
+    GlossAlamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }

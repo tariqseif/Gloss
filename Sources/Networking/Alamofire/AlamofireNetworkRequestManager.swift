@@ -87,7 +87,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             }
         }
         
-        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
     }
     
     public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
@@ -104,7 +104,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             }
         }
         
-        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseDecodable(responseCompletion)
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
     }
     
     // MARK: - Private functions

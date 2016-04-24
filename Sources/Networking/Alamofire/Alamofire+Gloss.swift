@@ -31,7 +31,7 @@ import Foundation
  
  :parameter: Alamofire network request manager used for requests.
  */
-public var alamofireNetworkRequestManager: AlamofireNetworkRequestManager = {
+public private(set) var alamofireNetworkRequestManager: NetworkRequestManager = {
     return AlamofireNetworkRequestManager()
 }()
 

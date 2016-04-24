@@ -25,7 +25,7 @@
 
 /// A type that can represent either success with a value or failure with an error.
 /// Source: http://alisoftware.github.io/swift/async/error/2016/02/06/async-errors/
-public enum GlossResult<T> {
+public enum Result<T> {
     
     public typealias Value = T
     public typealias Error = ErrorType

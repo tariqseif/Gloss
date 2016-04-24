@@ -39,14 +39,14 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: - Convenience functions
     
-    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<T, NSError> -> ()) {
-        let completion: GlossResult<T> -> () = {
+    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Result<T, NSError> -> ()) {
+        let completion: Gloss.Result<T> -> () = {
             result in
             
             switch result {
-            case GlossResult.Success(let value):
+            case Gloss.Result.Success(let value):
                 completion(Alamofire.Result.Success(value))
-            case GlossResult.Failure(let error):
+            case Gloss.Result.Failure(let error):
                 completion(Alamofire.Result.Failure(error as NSError))
             }
         }
@@ -54,14 +54,14 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
         request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
     }
     
-    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<[T], NSError> -> ()) {
-        let completion: GlossResult<[T]> -> () = {
+    public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String : String]? = nil, completion: Alamofire.Result<[T], NSError> -> ()) {
+        let completion: Gloss.Result<[T]> -> () = {
             result in
             
             switch result {
-            case GlossResult.Success(let value):
+            case Gloss.Result.Success(let value):
                 completion(Alamofire.Result.Success(value))
-            case GlossResult.Failure(let error):
+            case Gloss.Result.Failure(let error):
                 completion(Alamofire.Result.Failure(error as NSError))
             }
         }
@@ -73,7 +73,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: NetworkRequestManager
     
-    public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<T> -> ()) {
+    public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<T> -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<T, NSError> -> () = {
@@ -81,16 +81,16 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             
             switch response.result {
             case .Success(let value):
-                completion(GlossResult(value: value))
+                completion(Gloss.Result(value: value))
             case .Failure(let error):
-                completion(GlossResult(error: error))
+                completion(Gloss.Result(error: error))
             }
         }
         
         Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
     }
     
-    public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<[T]> -> ()) {
+    public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<[T]> -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<[T], NSError> -> () = {
@@ -98,9 +98,9 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             
             switch response.result {
             case .Success(let value):
-                completion(GlossResult(value: value))
+                completion(Gloss.Result(value: value))
             case .Failure(let error):
-                completion(GlossResult(error: error))
+                completion(Gloss.Result(error: error))
             }
         }
         

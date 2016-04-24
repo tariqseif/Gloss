@@ -50,15 +50,15 @@ public func request<T: Decodable>(
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
-      completion: Result<T, NSError> -> ())
+      completion: Alamofire.Result<T, NSError> -> ())
 {
-    let requestCompletion: GlossResult<T> -> () = {
+    let requestCompletion: Gloss.Result<T> -> () = {
         result in
         
         switch result {
-        case GlossResult.Success(let value):
+        case Gloss.Result.Success(let value):
             completion(Alamofire.Result.Success(value))
-        case GlossResult.Failure(let error):
+        case Gloss.Result.Failure(let error):
             completion(Alamofire.Result.Failure(error as NSError))
         }
     }
@@ -81,15 +81,15 @@ public func request<T: Decodable>(
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
-      completion: Result<[T], NSError> -> ())
+      completion: Alamofire.Result<[T], NSError> -> ())
 {
-    let requestCompletion: GlossResult<[T]> -> () = {
+    let requestCompletion: Gloss.Result<[T]> -> () = {
         result in
         
         switch result {
-        case GlossResult.Success(let value):
+        case Gloss.Result.Success(let value):
             completion(Alamofire.Result.Success(value))
-        case GlossResult.Failure(let error):
+        case Gloss.Result.Failure(let error):
             completion(Alamofire.Result.Failure(error as NSError))
         }
     }
@@ -112,7 +112,7 @@ public func request<T: Decodable>(
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
-      completion: GlossResult<T> -> ())
+      completion: Gloss.Result<T> -> ())
 {
     GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }
@@ -132,7 +132,7 @@ public func request<T: Decodable>(
       parameters: [String: AnyObject]? = nil,
       encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
-      completion: GlossResult<[T]> -> ())
+      completion: Gloss.Result<[T]> -> ())
 {
     GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }

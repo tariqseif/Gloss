@@ -166,9 +166,24 @@ extension Request {
         let responseSerializer = ResponseSerializer<T, NSError> {
             (request, response, data, error) in
             
-            let result: Result<T, NSError> = self.serializeResponse(request, response: response, data: data, error: error, options: .AllowFragments)
+            let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = Request.JSONResponseSerializer()
+            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
-            return result
+            switch result {
+            case .Success(let value):
+                if
+                    let json = value as? JSON,
+                    let responseObject = T(json: json) {
+                    return .Success(responseObject)
+                } else {
+                    let failureReason = "JSON could not be serialized into response object: \(value)"
+                    let error = NSError(domain: "com.harlankellaway.Gloss", code: 1, userInfo: [NSLocalizedDescriptionKey : failureReason])
+                    
+                    return .Failure(error)
+                }
+            case .Failure(let error):
+                return .Failure(error)
+            }
         }
         
         return responseSerializer
@@ -183,77 +198,28 @@ extension Request {
         let responseSerializer = ResponseSerializer<[T], NSError> {
             (request, response, data, error) in
             
-            let result: Result<[T], NSError> = self.serializeResponse(request, response: response, data: data, error: error, options: .AllowFragments)
+            let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = Request.JSONResponseSerializer()
+            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
-            return result
+            switch result {
+            case .Success(let value):
+                if
+                    let jsonArray = value as? [JSON] {
+                    let responseObject = [T].fromJSONArray(jsonArray)
+                    
+                    return .Success(responseObject)
+                } else {
+                    let failureReason = "JSON could not be serialized into response object: \(value)"
+                    let error = NSError(domain: "com.harlankellaway.Gloss", code: 1, userInfo: [NSLocalizedDescriptionKey : failureReason])
+                    
+                    return .Failure(error)
+                }
+            case .Failure(let error):
+                return .Failure(error)
+            }
         }
         
         return responseSerializer
-    }
-    
-    /**
-     Serializes a response into an array of Decodable objects. Returns serialized objects
-     when successful, error otherwise.
-     
-     :parameter: request  Request.
-     :parameter: response Response.
-     :parameter: data     Data.
-     :parameter: error    Error.
-     
-     :returns: Result of serializing response to array of Decodable objects.
-     */
-    public static func serializeResponse<T: Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> Result<T, NSError> {
-        let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = (options == nil) ? Request.JSONResponseSerializer() : Request.JSONResponseSerializer(options: options!)
-        let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
-        
-        switch result {
-        case .Success(let value):
-            if
-                let json = value as? JSON,
-                let responseObject = T(json: json) {
-                return .Success(responseObject)
-            } else {
-                let failureReason = "JSON could not be serialized into response object: \(value)"
-                let error = NSError(domain: "com.harlankellaway.Gloss", code: 1, userInfo: [NSLocalizedDescriptionKey : failureReason])
-                
-                return .Failure(error)
-            }
-        case .Failure(let error):
-            return .Failure(error)
-        }
-    }
-    
-    /**
-     Serializes a response into an array of Decodable objects. Returns serialized objects
-     when successful, error otherwise.
-     
-     :parameter: request  Request.
-     :parameter: response Response.
-     :parameter: data     Data.
-     :parameter: error    Error.
-     
-     :returns: Result of serializing response to array of Decodable objects.
-     */
-    public static func serializeResponse<T : Decodable>(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?, options: NSJSONReadingOptions?) -> Result<[T], NSError> {
-        let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = (options == nil) ? Request.JSONResponseSerializer() : Request.JSONResponseSerializer(options: options!)
-        let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
-        
-        switch result {
-        case .Success(let value):
-            if
-                let jsonArray = value as? [JSON] {
-                let responseObject = [T].fromJSONArray(jsonArray)
-                
-                return .Success(responseObject)
-            } else {
-                let failureReason = "JSON could not be serialized into response object: \(value)"
-                let error = NSError(domain: "com.harlankellaway.Gloss", code: 1, userInfo: [NSLocalizedDescriptionKey : failureReason])
-                
-                return .Failure(error)
-            }
-        case .Failure(let error):
-            return .Failure(error)
-        }
     }
     
 }

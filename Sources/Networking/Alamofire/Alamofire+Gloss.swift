@@ -23,98 +23,22 @@
 // THE SOFTWARE.
 //
 
-import Alamofire
 import Foundation
+
 
 /**
  Alamofire network request manager used for requests.
- 
- :parameter: Alamofire network request manager used for requests.
  */
 public private(set) var GlossAlamofireNetworkRequestManager: NetworkRequestManager = {
-    let defaultAdapter = BasicAlamofireAdapter()
-    
-    return AlamofireNetworkRequestManager(adapter: defaultAdapter)
+    return AlamofireNetworkRequestManager(adapter: GlossAlamofireAdapter)
 }()
 
 /**
- Convenience function for making a network request.
- 
- :parameter: method     Method.
- :parameter: URLString  URL string.
- :parameter: parameters Parameters.
- :parameter: headers    Headers.
- :parameter: completion Function called on completion.
+ Alamofire adapter used for requests.
  */
-public func request(
-    method: HTTPMethod,
-    _ URLString: URLStringConvertible,
-      parameters: [String: AnyObject]? = nil,
-      headers: [String: String]? = nil,
-      completion: Result<()> -> ())
-{
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
-}
-
-/**
- Convenience function for making a network request.
- 
- :parameter: method     Method.
- :parameter: URLString  URL string.
- :parameter: parameters Parameters.
- :parameter: headers    Headers.
- :parameter: completion Function called on completion.
- */
-public func request<T: Decodable>(
-    method: HTTPMethod,
-    _ URLString: URLStringConvertible,
-      parameters: [String: AnyObject]? = nil,
-      headers: [String: String]? = nil,
-      completion: Alamofire.Result<T, NSError> -> ())
-{
-    let requestCompletion: Gloss.Result<T> -> () = {
-        result in
-        
-        switch result {
-        case Gloss.Result.Success(let value):
-            completion(Alamofire.Result.Success(value))
-        case Gloss.Result.Failure(let error):
-            completion(Alamofire.Result.Failure(error as NSError))
-        }
-    }
-    
-    request(method, URLString.URLString, completion: requestCompletion)
-}
-
-/**
- Convenience function for making a network request.
- 
- :parameter: method     Method.
- :parameter: URLString  URL string.
- :parameter: parameters Parameters.
- :parameter: headers    Headers.
- :parameter: completion Function called on completion.
- */
-public func request<T: Decodable>(
-    method: HTTPMethod,
-    _ URLString: URLStringConvertible,
-      parameters: [String: AnyObject]? = nil,
-      headers: [String: String]? = nil,
-      completion: Alamofire.Result<[T], NSError> -> ())
-{
-    let requestCompletion: Gloss.Result<[T]> -> () = {
-        result in
-        
-        switch result {
-        case Gloss.Result.Success(let value):
-            completion(Alamofire.Result.Success(value))
-        case Gloss.Result.Failure(let error):
-            completion(Alamofire.Result.Failure(error as NSError))
-        }
-    }
-    
-    request(method, URLString.URLString, completion: requestCompletion)
-}
+public private(set) var GlossAlamofireAdapter: AlamofireAdapter = {
+    return BasicAlamofireAdapter()
+}()
 
 /**
  Convenience function for making a network request.

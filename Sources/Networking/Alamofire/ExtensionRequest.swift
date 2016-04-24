@@ -34,7 +34,7 @@ extension Request {
      completion: Handler for Response with a Decodable object.
      */
     public func responseDecodable<T: Decodable>(completion: Response<T, NSError> -> Void) -> Self {
-        return response(responseSerializer: Request.DecodableJSONResponseSerializer(), completionHandler: completion)
+        return response(responseSerializer: Request.GlossResponseSerializer(), completionHandler: completion)
     }
     
     /**
@@ -43,7 +43,7 @@ extension Request {
      completion: Handler for Response with array of Decodable objects.
      */
     public func responseDecodable<T: Decodable>(completion: Response<[T], NSError> -> Void) -> Self {
-        return response(responseSerializer: Request.DecodableJSONResponseSerializer(), completionHandler: completion)
+        return response(responseSerializer: Request.GlossResponseSerializer(), completionHandler: completion)
     }
     
     /**
@@ -51,11 +51,11 @@ extension Request {
      
      :returns: Response serializer.
      */
-    public static func DecodableJSONResponseSerializer<T: Decodable>() -> ResponseSerializer<T, NSError> {
+    public static func GlossResponseSerializer<T: Decodable>() -> ResponseSerializer<T, NSError> {
         let responseSerializer = ResponseSerializer<T, NSError> {
             (request, response, data, error) in
             
-            let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = Request.JSONResponseSerializer()
+            let jsonResponseSerializer = Request.JSONResponseSerializer()
             let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
             switch result {
@@ -83,17 +83,16 @@ extension Request {
      
      :returns: Response serializer.
      */
-    public static func DecodableJSONResponseSerializer<T: Decodable>() -> ResponseSerializer<[T], NSError> {
+    public static func GlossResponseSerializer<T: Decodable>() -> ResponseSerializer<[T], NSError> {
         let responseSerializer = ResponseSerializer<[T], NSError> {
             (request, response, data, error) in
             
-            let jsonResponseSerializer: ResponseSerializer<AnyObject, NSError> = Request.JSONResponseSerializer()
+            let jsonResponseSerializer = Request.JSONResponseSerializer()
             let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
             switch result {
             case .Success(let value):
-                if
-                    let jsonArray = value as? [JSON] {
+                if let jsonArray = value as? [JSON] {
                     let responseObject = [T].fromJSONArray(jsonArray)
                     
                     return .Success(responseObject)

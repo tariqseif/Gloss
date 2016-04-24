@@ -40,7 +40,7 @@ public protocol NetworkRequestManager {
      :parameter: headers    Headers.
      :parameter: completion Function called on completion.
      */
-    func networkRequest<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ())
+    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ())
     
     /**
      Performs a network request with the provided details. Completes with
@@ -52,6 +52,6 @@ public protocol NetworkRequestManager {
      :parameter: headers    Headers.
      :parameter: completion Function called on completion.
      */
-    func networkRequest<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ())
+    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ())
     
 }

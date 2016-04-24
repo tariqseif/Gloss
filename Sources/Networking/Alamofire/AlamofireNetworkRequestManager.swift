@@ -73,6 +73,23 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: NetworkRequestManager
     
+    public func request(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<()> -> ()) {
+        let requestMethod = alamofireMethodForMethod(method)
+        
+        let responseCompletion: Response<(), NSError> -> () = {
+            response in
+            
+            switch response.result {
+            case .Success(let _):
+                completion(Gloss.Result(value: ()))
+            case .Failure(let error):
+                completion(Gloss.Result(error: error))
+            }
+        }
+        
+        Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossEmpty(responseCompletion)
+    }
+    
     public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<T> -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         

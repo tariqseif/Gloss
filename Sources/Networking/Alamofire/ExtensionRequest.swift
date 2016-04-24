@@ -27,13 +27,22 @@ import Alamofire
 import Foundation
 
 extension Request {
+
+    /**
+     Handler for Response with no object.
+     
+     completion: Handler for Response with a no object.
+     */
+    public func responseGlossEmpty(completion: Response<(), NSError> -> ()) -> Self {
+        return response(responseSerializer: Request.GlossEmptyResponseSerializer(), completionHandler: completion)
+    }
     
     /**
      Handler for Response with a Decodable object.
      
      completion: Handler for Response with a Decodable object.
      */
-    public func responseGlossDecodable<T: Decodable>(completion: Response<T, NSError> -> Void) -> Self {
+    public func responseGlossDecodable<T: Decodable>(completion: Response<T, NSError> -> ()) -> Self {
         return response(responseSerializer: Request.GlossDecodableResponseSerializer(), completionHandler: completion)
     }
     
@@ -42,7 +51,7 @@ extension Request {
      
      completion: Handler for Response with array of Decodable objects.
      */
-    public func responseGlossDecodable<T: Decodable>(completion: Response<[T], NSError> -> Void) -> Self {
+    public func responseGlossDecodable<T: Decodable>(completion: Response<[T], NSError> -> ()) -> Self {
         return response(responseSerializer: Request.GlossDecodableResponseSerializer(), completionHandler: completion)
     }
     
@@ -51,7 +60,7 @@ extension Request {
      
      completion: Handler for Response with a Decodable object.
      */
-    public func responseGlossJSON(completion: Response<JSON, NSError> -> Void) -> Self {
+    public func responseGlossJSON(completion: Response<JSON, NSError> -> ()) -> Self {
         return response(responseSerializer: Request.GlossJSONResponseSerializer(), completionHandler: completion)
     }
     
@@ -60,8 +69,27 @@ extension Request {
      
      completion: Handler for Response with array of Decodable objects.
      */
-    public func responseGlossJSONArray(completion: Response<[JSON], NSError> -> Void) -> Self {
+    public func responseGlossJSONArray(completion: Response<[JSON], NSError> -> ()) -> Self {
         return response(responseSerializer: Request.GlossJSONArrayResponseSerializer(), completionHandler: completion)
+    }
+    
+    /**
+     Response serializer capable of handling empty objects.
+     
+     :returns: Response serializer.
+     */
+    public static func GlossEmptyResponseSerializer() -> ResponseSerializer<(), NSError> {
+        let responseSerializer = ResponseSerializer<(), NSError> {
+            (request, response, data, error) in
+            
+            if let error = error {
+                return .Failure(error)
+            }
+                        
+            return .Success(())
+        }
+        
+        return responseSerializer
     }
     
     /**

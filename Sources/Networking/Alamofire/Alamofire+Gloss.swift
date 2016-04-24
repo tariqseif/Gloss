@@ -44,6 +44,25 @@ public private(set) var GlossAlamofireNetworkRequestManager: NetworkRequestManag
  :parameter: headers    Headers.
  :parameter: completion Function called on completion.
  */
+public func request(
+    method: HTTPMethod,
+    _ URLString: URLStringConvertible,
+      parameters: [String: AnyObject]? = nil,
+      headers: [String: String]? = nil,
+      completion: Result<()> -> ())
+{
+    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
+}
+
+/**
+ Convenience function for making a network request.
+ 
+ :parameter: method     Method.
+ :parameter: urlString  URL string.
+ :parameter: parameters Parameters.
+ :parameter: headers    Headers.
+ :parameter: completion Function called on completion.
+ */
 public func request<T: Decodable>(
     method: HTTPMethod,
     _ URLString: URLStringConvertible,
@@ -93,6 +112,25 @@ public func request<T: Decodable>(
     }
     
     request(method, URLString.URLString, completion: requestCompletion)
+}
+
+/**
+ Convenience function for making a network request.
+ 
+ :parameter: method     Method.
+ :parameter: urlString  URL string.
+ :parameter: parameters Parameters.
+ :parameter: headers    Headers.
+ :parameter: completion Function called on completion.
+ */
+public func request(
+    method: HTTPMethod,
+    _ URLString: String,
+      parameters: [String: AnyObject]? = nil,
+      headers: [String: String]? = nil,
+      completion: Gloss.Result<()> -> ())
+{
+    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }
 
 /**

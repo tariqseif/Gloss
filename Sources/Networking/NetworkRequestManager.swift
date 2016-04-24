@@ -31,6 +31,18 @@ import Foundation
 public protocol NetworkRequestManager {
 
     /**
+     Performs a network request with the provided details. Completes with empty
+     tuple when successful, error otherwise.
+     
+     :parameter: method     Method.
+     :parameter: URLString  URL string.
+     :parameter: parameters Parameters.
+     :parameter: headers    Headers.
+     :parameter: completion Function called on completion.
+     */
+    func request(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<()> -> ())
+    
+    /**
      Performs a network request with the provided details. Completes with
      Decodable objects when successful, error otherwise.
      
@@ -40,7 +52,7 @@ public protocol NetworkRequestManager {
      :parameter: headers    Headers.
      :parameter: completion Function called on completion.
      */
-    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<T> -> ())
+    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<T> -> ())
     
     /**
      Performs a network request with the provided details. Completes with
@@ -52,6 +64,6 @@ public protocol NetworkRequestManager {
      :parameter: headers    Headers.
      :parameter: completion Function called on completion.
      */
-    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Gloss.Result<[T]> -> ())
+    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: Result<[T]> -> ())
     
 }

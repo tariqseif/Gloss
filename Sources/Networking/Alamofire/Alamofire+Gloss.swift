@@ -114,7 +114,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: Gloss.Result<T> -> ())
 {
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
+    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }
 
 /**
@@ -134,5 +134,5 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: Gloss.Result<[T]> -> ())
 {
-    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
+    GlossAlamofireNetworkRequestManager.request(method, URLString: URLString, parameters: parameters, headers: headers, completion: completion)
 }

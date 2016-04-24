@@ -48,7 +48,6 @@ public func request<T: Decodable>(
     method: HTTPMethod,
     _ URLString: URLStringConvertible,
       parameters: [String: AnyObject]? = nil,
-      encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
       completion: Alamofire.Result<T, NSError> -> ())
 {
@@ -79,7 +78,6 @@ public func request<T: Decodable>(
     method: HTTPMethod,
     _ URLString: URLStringConvertible,
       parameters: [String: AnyObject]? = nil,
-      encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
       completion: Alamofire.Result<[T], NSError> -> ())
 {
@@ -110,7 +108,6 @@ public func request<T: Decodable>(
     method: HTTPMethod,
     _ URLString: String,
       parameters: [String: AnyObject]? = nil,
-      encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
       completion: Gloss.Result<T> -> ())
 {
@@ -130,7 +127,6 @@ public func request<T: Decodable>(
     method: HTTPMethod,
     _ URLString: String,
       parameters: [String: AnyObject]? = nil,
-      encoding: ParameterEncoding = .URL,
       headers: [String: String]? = nil,
       completion: Gloss.Result<[T]> -> ())
 {

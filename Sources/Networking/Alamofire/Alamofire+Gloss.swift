@@ -114,7 +114,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: (T?, NSError?) -> ())
 {
-    request(alamofireNetworkRequestManager, method: method, URLString, completion: completion)
+    alamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }
 
 /**
@@ -134,7 +134,7 @@ public func request<T: Decodable>(
       headers: [String: String]? = nil,
       completion: ([T]?, NSError?) -> ())
 {
-    request(alamofireNetworkRequestManager, method: method, URLString, completion: completion)
+    alamofireNetworkRequestManager.networkRequest(method, URLString: URLString, parameters: nil, headers: nil, completion: completion)
 }
 
 extension Request {

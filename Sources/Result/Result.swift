@@ -1,5 +1,5 @@
 //
-//  NetworkRequestManager.swift
+//  Result.swift
 //  Gloss
 //
 // Copyright (c) 2016 Harlan Kellaway
@@ -23,35 +23,36 @@
 // THE SOFTWARE.
 //
 
-import Foundation
-
-/**
- Network request manager.
- */
-public protocol NetworkRequestManager {
-
-    /**
-     Performs a network request with the provided details. Completes with
-     Decodable objects when successful, error otherwise.
-     
-     :parameter: method     Method.
-     :parameter: URLString  URL string.
-     :parameter: parameters Parameters.
-     :parameter: headers    Headers.
-     :parameter: completion Function called on completion.
-     */
-    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<T> -> ())
+/// A type that can represent either success with a value or failure with an error.
+/// Source: http://alisoftware.github.io/swift/async/error/2016/02/06/async-errors/
+public enum GlossResult<T> {
+    
+    public typealias Value = T
+    public typealias Error = ErrorType
+    
+    case Success(Value)
+    case Failure(Error)
     
     /**
-     Performs a network request with the provided details. Completes with
-     array of Decodable objects when successful, error otherwise.
+     Initializes with specified value.
      
-     :parameter: method     Method.
-     :parameter: URLString  URL string.
-     :parameter: parameters Parameters.
-     :parameter: headers    Headers.
-     :parameter: completion Function called on completion.
+     - parameter value: Value.
+     
+     - returns: Result with value.
      */
-    func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<[T]> -> ())
+    init(value: Value) {
+        self = .Success(value)
+    }
+    
+    /**
+     Initializes with specified error.
+     
+     - parameter error: Error.
+     
+     - returns: Result with error.
+     */
+    init(error: Error) {
+        self = .Failure(error)
+    }
     
 }

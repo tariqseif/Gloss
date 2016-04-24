@@ -40,30 +40,30 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     // MARK: - Convenience functions
     
     public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<T, NSError> -> ()) {
-        let completion: (value: T?, error: NSError?) -> () = {
-            (object, error) in
+        let completion: GlossResult<T> -> () = {
+            result in
             
-            if let error = error {
-                completion(.Failure(error))
-                return
+            switch result {
+            case GlossResult.Success(let value):
+                completion(Alamofire.Result.Success(value))
+            case GlossResult.Failure(let error):
+                completion(Alamofire.Result.Failure(error as NSError))
             }
-            
-            completion(.Success(object!))
         }
         
         request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
     }
     
     public func request<T: Decodable>(method: HTTPMethod, URLString: URLStringConvertible, parameters: [String : AnyObject]? = nil, headers: [String : String]? = nil, completion: Result<[T], NSError> -> ()) {
-        let completion: (value: [T]?, error: NSError?) -> () = {
-            (objects, error) in
+        let completion: GlossResult<[T]> -> () = {
+            result in
             
-            if let error = error {
-                completion(.Failure(error))
-                return
+            switch result {
+            case GlossResult.Success(let value):
+                completion(Alamofire.Result.Success(value))
+            case GlossResult.Failure(let error):
+                completion(Alamofire.Result.Failure(error as NSError))
             }
-            
-            completion(.Success(objects!))
         }
         
         request(method, URLString: URLString.URLString, parameters: parameters, headers: headers, completion: completion)
@@ -73,7 +73,7 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
     
     // MARK: NetworkRequestManager
     
-    public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: T?, error: NSError?) -> ()) {
+    public func request<T: Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<T> -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<T, NSError> -> () = {
@@ -81,16 +81,16 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             
             switch response.result {
             case .Success(let value):
-                completion(value: value, error: nil)
+                completion(GlossResult(value: value))
             case .Failure(let error):
-                completion(value: nil, error: error)
+                completion(GlossResult(error: error))
             }
         }
         
         Alamofire.request(requestMethod, URLString, parameters: parameters, encoding: .URL, headers: headers).responseGlossDecodable(responseCompletion)
     }
     
-    public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: (value: [T]?, error: NSError?) -> ()) {
+    public func request<T : Decodable>(method: HTTPMethod, URLString: String, parameters: [String : AnyObject]?, headers: [String : String]?, completion: GlossResult<[T]> -> ()) {
         let requestMethod = alamofireMethodForMethod(method)
         
         let responseCompletion: Response<[T], NSError> -> () = {
@@ -98,9 +98,9 @@ public struct AlamofireNetworkRequestManager: NetworkRequestManager {
             
             switch response.result {
             case .Success(let value):
-                completion(value: value, error: nil)
+                completion(GlossResult(value: value))
             case .Failure(let error):
-                completion(value: nil, error: error)
+                completion(GlossResult(error: error))
             }
         }
         

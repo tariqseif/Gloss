@@ -12,18 +12,19 @@ Pod::Spec.new do |s|
   s.platforms     = { :ios => "8.0", :osx => "10.9", :tvos => "9.0", :watchos => "2.0" }
   s.requires_arc = true
 
-  s.default_subspec   = 'Gloss'
-
-  s.subspec 'Gloss' do |ss|
-      ss.dependency     'Gloss/Core'
-  end
+  s.default_subspec   = 'Core'
 
   s.subspec 'Core' do |ss|
       ss.source_files = 'Sources/*.swift'
   end
 
+  s.subspec 'Result' do |ss|
+      ss.source_files = 'Sources/Result/*.swift'
+  end
+
   s.subspec 'Networking' do |ss|
       ss.dependency     'Gloss/Core'
+      ss.dependency     'Gloss/Result'
       ss.source_files = 'Sources/Networking/*.swift'
   end
 

@@ -18,13 +18,8 @@ Pod::Spec.new do |s|
       ss.source_files = 'Sources/*.swift'
   end
 
-  s.subspec 'Result' do |ss|
-      ss.source_files = 'Sources/Result/*.swift'
-  end
-
   s.subspec 'Networking' do |ss|
       ss.dependency     'Gloss/Core'
-      ss.dependency     'Gloss/Result'
       ss.source_files = 'Sources/Networking/*.swift'
   end
 

@@ -93,18 +93,17 @@ class ViewController: UIViewController {
     
     // Example of making network requests with Gloss.
     func networkingExample() {
-        let completion: Result<[Repo], NSError> -> () = {
-            result in
+        Alamofire.request(.GET, "https://api.github.com/users/hkellaway/repos").responseGlossDecodable {
+            (response: Response<[Repo], NSError>) in
             
-            switch result {
-            case .Success(let models):
-                print(models)
+            switch response.result {
+            case .Success(let repos):
+                print(repos)
             case .Failure(let error):
                 print(error)
             }
         }
-        
-        Gloss.request(.GET, "https://api.github.com/users/hkellaway/repos", completion: completion)
+
     }
 }
 

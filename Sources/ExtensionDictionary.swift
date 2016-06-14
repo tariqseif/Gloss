@@ -43,8 +43,7 @@ public extension Dictionary {
      - returns: Value retrieved from dic
      */
     public func valueForKeyPath(keyPath: String, withDelimiter delimiter: String = GlossKeyPathDelimiter) -> AnyObject? {
-        let keys = keyPath.componentsSeparatedByString(delimiter)
-        
+        let keys = keyPath.components(separatedBy: delimiter)
         guard let first = keys.first as? Key else {
             print("[Gloss] Unable to use keyPath '\(keyPath)' as key on type: \(Key.self)")
             return nil
@@ -55,9 +54,9 @@ public extension Dictionary {
         }
         
         if keys.count > 1, let subDict = value as? JSON {
-            let rejoined = keys[1..<keys.endIndex].joinWithSeparator(delimiter)
+            let rejoined = keys[1..<keys.endIndex].joined(separator: delimiter)
         
-            return subDict.valueForKeyPath(rejoined, withDelimiter: delimiter)
+            return subDict.valueForKeyPath(keyPath: rejoined, withDelimiter: delimiter)
         }
         
         return value
@@ -122,19 +121,19 @@ public extension Dictionary {
      - parameter withDelimiter: Delimiter for key path.
      */
     private mutating func setValue(valueToSet value: Any, forKeyPath keyPath: String, withDelimiter delimiter: String = GlossKeyPathDelimiter) {
-        var keys = keyPath.componentsSeparatedByString(delimiter)
+        var keys = keyPath.components(separatedBy: delimiter)
         
         guard let first = keys.first as? Key else {
             print("[Gloss] Unable to use string as key on type: \(Key.self)")
             return
         }
         
-        keys.removeAtIndex(0)
+        keys.remove(at: 0)
         
         if keys.isEmpty, let settable = value as? Value {
             self[first] = settable
         } else {
-            let rejoined = keys.joinWithSeparator(delimiter)
+            let rejoined = keys.joined(separator: delimiter)
             var subdict: JSON = [ : ]
             
             if let sub = self[first] as? JSON {

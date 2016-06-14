@@ -40,7 +40,7 @@ Convenience operator for decoding JSON to generic value.
  
  - returns: Decoded value when successful, nil otherwise.
  */
-public func <~~ <T>(key: String, json: JSON) -> T? {
+public func <~~ <T>(_ key: String, json: JSON) -> T? {
     return Decoder.decode(key)(json)
 }
 

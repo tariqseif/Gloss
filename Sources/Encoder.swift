@@ -37,7 +37,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encode<T>(_ key:String) -> T? -> JSON? {
+    public static func encode<T>(_ key:String) -> (T?) -> JSON? {
         return {
             property in
             
@@ -56,7 +56,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeArray<T>(_ key:String) -> [T]? -> JSON? {
+    public static func encodeArray<T>(_ key:String) -> ([T]?) -> JSON? {
         return {
             array in
             
@@ -76,7 +76,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeDate(_ key:String, dateFormatter: DateFormatter) -> Date? -> JSON? {
+    public static func encodeDate(_ key:String, dateFormatter: DateFormatter) -> (Date?) -> JSON? {
         return {
             date in
             
@@ -96,7 +96,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeDateArray(_ key:String, dateFormatter: DateFormatter) -> [Date]? -> JSON? {
+    public static func encodeDateArray(_ key:String, dateFormatter: DateFormatter) -> ([Date]?) -> JSON? {
         return {
             dates in
             

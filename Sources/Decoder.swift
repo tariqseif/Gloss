@@ -59,7 +59,7 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decodeDate(_ key:String, dateFormatter: DateFormatter, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> NSDate? {
+    public static func decodeDate(_ key:String, dateFormatter: DateFormatter, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> Date? {
         return {
             json in
             
@@ -80,12 +80,12 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decodeDateArray(_ key:String, dateFormatter: DateFormatter, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [NSDate]? {
+    public static func decodeDateArray(_ key:String, dateFormatter: DateFormatter, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [Date]? {
         return {
             json in
             
             if let dateStrings = json.valueForKeyPath(keyPath: key, withDelimiter: keyPathDelimiter) as? [String] {
-                var dates: [NSDate] = []
+                var dates: [Date] = []
                 
                 for dateString in dateStrings {
                     if let date = dateFormatter.date(from: dateString) {
@@ -108,7 +108,7 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decodeDateISO8601(_ key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> NSDate? {
+    public static func decodeDateISO8601(_ key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> Date? {
         return Decoder.decodeDate(key, dateFormatter: GlossDateFormatterISO8601, keyPathDelimiter: keyPathDelimiter)
     }
     
@@ -120,7 +120,7 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decodeDateISO8601Array(_ key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [NSDate]? {
+    public static func decodeDateISO8601Array(_ key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [Date]? {
         return Decoder.decodeDateArray(key, dateFormatter: GlossDateFormatterISO8601, keyPathDelimiter: keyPathDelimiter)
     }
     

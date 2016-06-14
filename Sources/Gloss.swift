@@ -104,7 +104,7 @@ public private(set) var GlossKeyPathDelimiter: String = {
  
  - returns: JSON when successful, nil otherwise.
  */
-public func jsonify(array: [JSON?], keyPathDelimiter: String = GlossKeyPathDelimiter) -> JSON? {
+public func jsonify(_ array: [JSON?], keyPathDelimiter: String = GlossKeyPathDelimiter) -> JSON? {
     var json: JSON = [:]
     
     for j in array {

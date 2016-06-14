@@ -123,7 +123,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeDateISO8601(_ key:String) -> Date? -> JSON? {
+    public static func encodeDateISO8601(_ key:String) -> (Date?) -> JSON? {
         return Encoder.encodeDate(key, dateFormatter: GlossDateFormatterISO8601)
     }
     
@@ -134,7 +134,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeDateISO8601Array(_ key:String) -> [Date]? -> JSON? {
+    public static func encodeDateISO8601Array(_ key:String) -> ([Date]?) -> JSON? {
         return Encoder.encodeDateArray(key, dateFormatter: GlossDateFormatterISO8601)
     }
     
@@ -145,7 +145,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeEncodable<T: Encodable>(_ key:String) -> T? -> JSON? {
+    public static func encodeEncodable<T: Encodable>(_ key:String) -> (T?) -> JSON? {
         return {
             model in
             
@@ -164,7 +164,7 @@ public struct Encoder {
      
      - returns: JSON encoded from value.
      */
-    public static func encodeEncodableArray<T: Encodable>(_ key:String) -> [T]? -> JSON? {
+    public static func encodeEncodableArray<T: Encodable>(_ key:String) -> ([T]?) -> JSON? {
         return {
             array in
             

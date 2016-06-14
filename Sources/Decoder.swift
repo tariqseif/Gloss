@@ -220,7 +220,7 @@ public struct Decoder {
             return dictionary.flatMap {
                 (key, value) in
                 
-                let decoded = [T].fromJSONArray(jsonArray: value)
+                let decoded = [T].fromJSONArray(value)
                 
                 return (key, decoded)
             }
@@ -451,12 +451,12 @@ public struct Decoder {
 
      - returns: Value decoded from JSON.
      */
-    public static func decodeURL(_ key:String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> NSURL? {
+    public static func decodeURL(_ key:String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> URL? {
         return {
             json in
             if let urlString = json.valueForKeyPath(keyPath: key, withDelimiter: keyPathDelimiter) as? String,
                 encodedString = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed()) {
-                return NSURL(string: encodedString)
+                return URL(string: encodedString)
             }
             
             return nil
@@ -471,15 +471,15 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decodeURLArray(_ key:String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [NSURL]? {
+    public static func decodeURLArray(_ key:String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [URL]? {
         return {
             json in
             
             if let urlStrings = json.valueForKeyPath(keyPath: key, withDelimiter: keyPathDelimiter) as? [String] {
-                var urls: [NSURL] = []
+                var urls: [URL] = []
                 
                 for urlString in urlStrings {
-                    if let url = NSURL(string: urlString) {
+                    if let url = URL(string: urlString) {
                         urls.append(url)
                     }
                 }

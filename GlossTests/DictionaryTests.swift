@@ -35,13 +35,13 @@ class DictionaryTests: XCTestCase {
     }
     
     func testValueForKeyPathProducesCorrectValueForDelimited() {
-        let result = testDictionary?.valueForKeyPath("nested.model.nestedModelId")
+        let result = testDictionary?.valueForKeyPath(keyPath: "nested.model.nestedModelId")
         
         XCTAssertTrue((result as! Int) == 123, "Value for key path should product the correct value for delimited keypath.")
     }
     
     func testValueForKeyPathProducesCorrectValueForNonDelimited() {
-        let result = testDictionary?.valueForKeyPath("id")
+        let result = testDictionary?.valueForKeyPath(keyPath: "id")
         
         XCTAssertTrue((result as! Int) == 456, "Value for key path should product the correct value for non-delimited keypath.")
     }

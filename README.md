@@ -22,7 +22,7 @@
 ### Installation with CocoaPods
 
 ```ruby
-pod 'Gloss', '~> 0.7'
+pod 'Gloss', '~> 0.8'
 ```
 
 ### Installation with Carthage

@@ -451,7 +451,7 @@ public struct Encoder {
 
      - returns: JSON encoded from value.
      */
-    public static func encodeURL(_ key:String) -> (NSURL?) -> JSON? {
+    public static func encodeURL(_ key:String) -> (URL?) -> JSON? {
         return {
             url in
             

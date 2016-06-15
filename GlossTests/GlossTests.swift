@@ -77,7 +77,8 @@ class GlossTests: XCTestCase {
             "enumValueArray" : ["A", "B", "C"],
             "date" : "2015-08-16T20:51:46.600Z",
             "dateISO8601" : "2015-08-08T21:57:13Z",
-            "url" : "http://github.com"
+            "url" : "http://github.com",
+            "urlArray" : ["http://github.com", "http://github.com", "http://github.com"]
         ]
         
         let model = TestModel(json: testModelsJSON!)

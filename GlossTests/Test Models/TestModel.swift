@@ -55,8 +55,8 @@ struct TestModel: Glossy {
     let int64Array: [Int64]?
 	let uInt64: UInt64?
 	let uInt64Array: [UInt64]?
-	let url: NSURL?
-    let urlArray: [NSURL]?
+	let url: URL?
+    let urlArray: [URL]?
     
     enum EnumValue: String {
         case A = "A"

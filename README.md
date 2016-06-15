@@ -73,7 +73,7 @@ struct RepoOwner: Decodable {
 
     // MARK: - Deserialization
 
-    init?(json: JSON) {
+    required init?(json: JSON) {
         self.ownerId = "id" <~~ json
         self.username = "login" <~~ json
     }
@@ -107,7 +107,7 @@ struct RepoOwner: Decodable {
 
     // MARK: - Deserialization
 
-    init?(json: JSON) {
+    required init?(json: JSON) {
         guard let ownerId: Int = "id" <~~ json
             else { return nil }
 
@@ -167,7 +167,7 @@ struct Repo: Decodable {
 
     // MARK: - Deserialization
 
-    init?(json: JSON) {
+    required init?(json: JSON) {
         self.repoId = "id" <~~ json
         self.name = "name" <~~ json
         self.desc = "description" <~~ json
@@ -305,7 +305,7 @@ struct Repo: Glossy {
 
     // MARK: - Deserialization
 
-    init?(json: JSON) {
+    required init?(json: JSON) {
         self.ownerId = "owner.id" <~~ json
         self.ownerUsername = "owner.login" <~~ json
     }
@@ -358,7 +358,7 @@ struct RepoOwner: Decodable {
 
     // MARK: - Deserialization
 
-    init?(json: JSON) {
+    required init?(json: JSON) {
         self.ownerId = "id" <~~ json
         self.username = Decoder.decodeStringUppercase("login", json: json)
     }

@@ -16,7 +16,7 @@
 
 ## Getting Started
 
-- [Download Gloss](https://github.com/hkellaway/Gloss/archive/master.zip) and do a `pod install` on the included `GlossExample` app to see Gloss in action
+- [Download Gloss](https://github.com/tariqseif/Gloss/archive/master.zip) and do a `pod install` on the included `GlossExample` app to see Gloss in action
 - Check out the [documentation](http://cocoadocs.org/docsets/Gloss/) for a more comprehensive look at the classes available in Gloss
 
 ### Installation with CocoaPods
@@ -41,7 +41,7 @@ import PackageDescription
 let package = Package(
     name: "HelloWorld",
     dependencies: [
-        .Package(url: "https://github.com/hkellaway/Gloss.git", majorVersion: 0)
+        .Package(url: "https://github.com/tariqseif/Gloss.git", majorVersion: 0)
     ]
 )
 ```
